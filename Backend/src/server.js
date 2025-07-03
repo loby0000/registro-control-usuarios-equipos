@@ -40,4 +40,10 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 app.use('/api/usuario', usuarioRoutes);
 
 const guardiaAuthRoutes = require('./routes/guardiaAuthRoutes');
-app.use('/api/guardia-auth', guardiaAuthRoutes);
+app.use('/api/guardia-auth', guardiaAuthRoutes); 
+
+const historialRoutes = require('./routes/historialRoutes');
+app.use('/api/historial', historialRoutes);
+
+const exportHistorialRoutes = require('./routes/exportHistorialRoutes');
+app.use('/api/exportar', exportHistorialRoutes);
