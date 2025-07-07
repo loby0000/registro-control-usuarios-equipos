@@ -20,11 +20,13 @@ exports.loginGuardia = async (req, res) => {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
-    const token = jwt.sign(
-      { id: guardia._id, documento: guardia.documento, role: 'guardia' },
-      process.env.JWT_SECRET,
-      { expiresIn: '8h' }
-    );
+    const payload = {
+      id: guardia._id,
+      documento: guardia.documento,
+      rol: 'guardia',
+      nombre: guardia.nombre
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '8h' });
 
     res.status(200).json({
       message: 'Login exitoso',

@@ -17,7 +17,8 @@ const MONGO_URI = process.env.MONGO_URI;
       await Admin.create({
         usuario: 'testAdmin123',
         clave: hash,
-        emergencia: true
+        emergencia: true,
+        rol: 'admin'
       });
       console.log('✅ Admin de emergencia creado');
     } else {

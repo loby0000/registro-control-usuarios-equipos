@@ -47,3 +47,23 @@ app.use('/api/historial', historialRoutes);
 
 const exportHistorialRoutes = require('./routes/exportHistorialRoutes');
 app.use('/api/exportar', exportHistorialRoutes);
+
+const dashboardRoutes = require('./routes/dashboardRoutes');
+app.use('/api/dashboard', dashboardRoutes);
+
+const notificacionesRoutes = require('./routes/notificacionesRoutes');
+app.use('/api/notificaciones', notificacionesRoutes);
+
+const notificacionRoutes = require('./routes/notificacionRoutes');
+app.use('/api/notificaciones', notificacionRoutes);
+
+// Iniciar tareas programadas (cron)
+require('./cron/index');
+
+// Iniciar cron de notificaciones automáticas
+const cron = require('node-cron');
+const verificarEntradasSinSalida = require('./tasks/verificarEntradasSinSalida');
+cron.schedule('0 * * * *', async () => {
+  console.log('⏰ Ejecutando verificación de usuarios dentro por tiempo prolongado...');
+  await verificarEntradasSinSalida();
+});

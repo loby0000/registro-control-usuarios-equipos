@@ -23,14 +23,15 @@ exports.loginAdmin = async (req, res) => {
     if (!validClave) {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
-
-    // Generar JWT
-    const token = jwt.sign(
-      { id: admin._id, usuario: admin.usuario, emergencia: admin.emergencia },
-      process.env.JWT_SECRET,
-      { expiresIn: '8h' }
-    );
-
+    // Generar JWT con rol siempre presente
+    const payload = {
+      id: admin._id,
+      usuario: admin.usuario,
+      emergencia: admin.emergencia,
+      rol: 'admin',
+      nombre: admin.usuario
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '8h' });
     res.status(200).json({
       message: 'Login exitoso',
       token

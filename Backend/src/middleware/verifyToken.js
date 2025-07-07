@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: 'Token no proporcionado' });
   }
 
-  const token = authHeader.split(' ')[1]; // Bearer <token>
+  const token = authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ message: 'Token inválido' });
@@ -15,7 +15,16 @@ module.exports = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Info del admin dentro del token
+    console.log('Decoded JWT:', decoded); // <-- LOG PARA DEPURAR
+
+    // Adjunta info bien estructurada y compatible con logs
+    req.usuario = {
+      id: decoded.id,
+      usuario: decoded.usuario || decoded.nombre || 'desconocido',
+      rol: decoded.rol || 'desconocido',
+      nombre: decoded.nombre || null
+    };
+
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Token inválido o expirado' });
